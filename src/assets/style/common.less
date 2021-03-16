@@ -1,0 +1,47 @@
+@width: 100vw/1920px;
+@height: 100vh/960px;
+//页面title
+.page-title {
+  padding: 0 48px * @width;
+  font-size: 21px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 600;
+  color: rgba(51, 51, 51, 1);
+}
+//   表单和表格
+.operate-btn_box,
+.filterForm-box,
+.table-box {
+  padding: 0 48px * @width;
+}
+.table-box {
+  margin-bottom: 32px;
+}
+//   分页
+.pagenation-box {
+  width: calc(100% - 220px);
+  padding: 0 48px * @width;
+  position: absolute;
+  bottom: 0;
+  border-top: 1px solid #d7d7d9;
+  background: #fefefe;
+  z-index: 999;
+}
+//滚动条
+.el-scrollbar__wrap {
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+}
+.el-select-dropdown .el-scrollbar__wrap {
+  overflow-x: scroll !important;
+}
+
+/* input框数字输入右边加减按钮消除 */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield;
+}
