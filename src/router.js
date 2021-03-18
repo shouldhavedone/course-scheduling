@@ -13,16 +13,43 @@ const routes = [
   {
     path: "/",
     component: Home,
-    redirect: '/blog/home'
+    redirect: '/home'
   },
   {
-    path: "/blog",
+    path: "/home",
     component: Home,
     children: [
       {
-        path: "/blog/home",
-        name: "home",
-        component: () => import("./views/blog/home"),
+        path: "",
+        name: "index",
+        component: () => import("./views/index"),
+      },
+    ],
+  },
+  {
+    path: "/course",
+    component: Home,
+    children: [
+      {
+        path: "",
+        name: "course",
+        component: () => import("./views/course"),
+      },
+    ],
+  },
+  {
+    path: "/classArea",
+    component: Home,
+    children: [
+      {
+        path: "/classArea/building",
+        name: "building",
+        component: () => import("./views/classroom/building"),
+      },
+      {
+        path: "/classArea/room",
+        name: "room",
+        component: () => import("./views/classroom/room"),
       },
     ],
   },
@@ -31,9 +58,19 @@ const routes = [
     component: Home,
     children: [
       {
-        path: "",
-        name: "setting",
-        component: () => import("./views/setting"),
+        path: "/setting/user",
+        name: "user",
+        component: () => import("./views/setting/user"),
+      },
+      {
+        path: "/setting/menu",
+        name: "menu",
+        component: () => import("./views/setting/menu"),
+      },
+      {
+        path: "/setting/role",
+        name: "role",
+        component: () => import("./views/setting/role"),
       },
     ],
   },

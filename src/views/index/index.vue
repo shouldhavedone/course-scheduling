@@ -1,6 +1,6 @@
 <template>
   <div>
-    仪表盘
+    首页
   </div>
 </template>
 <script>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    setting page
+    课程管理
   </div>
 </template>
 <script>

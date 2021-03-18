@@ -1,0 +1,6 @@
+export default {
+  getUserList: '/back-sys/user-service/getUserList',
+  addOrUpdateUser: '/back-sys/user-service/addOrUpdateUser',
+  delUser: '/back-sys/user-service/delUser',
+  getAllRole: '/back-sys/user-service/getAllRole',
+}

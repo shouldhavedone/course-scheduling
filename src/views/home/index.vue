@@ -35,6 +35,7 @@
 <script>
 import cheader from "./header";
 import cside from "./side";
+import api from '@/api'
 export default {
   components: {
     cheader,
@@ -43,106 +44,34 @@ export default {
 
   data() {
     return {
-      menuList: [
-        {
-          id: "1",
-          icon: "iconblog",
-          name: "排课管理",
-          url: "/blog",
-          children: [
-            {
-              id: "1-1",
-              url: "/blog/home",
-              icon: "icontongji",
-              name: "课程计划",
-            },
-            {
-              id: "1-2",
-              url: '/blog/home',
-              icon: "iconarticle",
-              name: "查看课表",
-            },
-          ],
-        },
-        {
-          id: '2',
-          icon: 'iconblog',
-          name: '课程管理',
-          url: '/blog',
-        },
-        {
-          id: '3',
-          icon: 'iconblog',
-          name: '讲师管理',
-          url: '/blog',
-        },
-        {
-          id: '4',
-          icon: 'iconblog',
-          name: '班级管理',
-          url: '/blog',
-        },
-        {
-          id: '5',
-          icon: 'iconblog',
-          name: '学生管理',
-          url: '/blog',
-        },
-        {
-          id: '6',
-          icon: 'iconblog',
-          name: '教室管理',
-          url: '/classroom',
-          children: [
-            {
-              id: "6-1",
-              url: "/blog/home",
-              icon: "icontongji",
-              name: "教学区域管理",
-            },
-            {
-              id: "6-2",
-              url: "/blog/home",
-              icon: "iconarticle",
-              name: "教室管理",
-            },
-          ],
-        },
-        {
-          id: "10",
-          icon: "iconshezhi",
-          name: "系统设置",
-          url: "/setting",
-          children: [
-            {
-              id: "10-1",
-              url: "/blog/home",
-              icon: "icontongji",
-              name: "菜单管理",
-            },
-            {
-              id: "10-2",
-              url: "/blog/home",
-              icon: "icontongji",
-              name: "角色管理",
-            },
-            {
-              id: "10-3",
-              url: "/blog/home",
-              icon: "iconarticle",
-              name: "用户管理",
-            },
-          ],
-        },
-      ],
       openSubs: ["1"],
       isCollapse: false,
+      menuList: [],
     };
   },
 
+  computed: {
+    userInfo() {
+      return this.$store.state.userInfo;
+    },
+  },
+
+  mounted() {
+    this.getMenu();
+  },
+
   methods: {
+    async getMenu() {
+      const params = {
+        role_id: this.userInfo.role_id,
+      };
+      const res = await this.$http.post(api.getMenu, params);
+      if(res && res.isSucceed) {
+        this.menuList = res.data
+      }
+    },
+
     toggleNav(val) {
-      console.log(val);
       this.isCollapse = val;
     },
   },
@@ -171,6 +100,10 @@ export default {
       .menu {
         height: 100%;
       }
+    }
+
+    .el-main {
+      padding: 12px * @height 20px * @width;
     }
   }
 

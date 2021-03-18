@@ -69,20 +69,19 @@ export default {
           api.getToken,
           this.$qs.stringify(this.ruleForm)
         );
-        this.$store.commit(
-          "SET_TOKEN",
-          res.data.token_type + " " + res.data.access_token
-        );
-        let res1 = await this.$http.get(api.login);
-        console.log(res1)
-        if(res1 && res1.isSucceed) {
-          this.$store.commit("SET_USER", res1.data);
+        if (res && res.isSucceed) {
+          this.$store.commit(
+            "SET_TOKEN",
+            res.data.token_type + " " + res.data.access_token
+          );
+          this.$store.commit("SET_USER", res.data.userInfo);
+          this.$router.push("/");
         } else {
+          this.$message.error(res.message);
           this.$store.commit("SET_TOKEN", null);
           this.$store.commit("SET_USER", "");
           return false;
         }
-        this.$router.push("/");
       });
     },
   },

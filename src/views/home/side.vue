@@ -2,10 +2,10 @@
   <div class="menu-content">
     <div v-for="(item, index) in navMenus" :key="index">
       <el-menu-item
-        v-if="!item.children || item.children.length == 0"
-        :index="item.url ? item.url + '' : item.id + ''"
+        v-if="!item.Menus || item.Menus.length == 0"
+        :index="item.path ? item.path + '' : item.id + ''"
         :key="item.id"
-        :class="getPath(item.url) ? 'is-active' : 'unactive-menu'"
+        :class="getPath(item.path) ? 'is-active' : 'unactive-menu'"
       >
         <i class="iconfont icon" :class="item.icon"></i>
         <span slot="title">{{ item.name }}</span>
@@ -15,7 +15,7 @@
           <i class="iconfont icon" :class="item.icon"></i>
           <span slot="title">{{ item.name }}</span>
         </template>
-        <NavMenu :navMenus="item.children"></NavMenu>
+        <NavMenu :navMenus="item.Menus"></NavMenu>
       </el-submenu>
     </div>
   </div>
