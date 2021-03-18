@@ -38,6 +38,55 @@ const routes = [
     ],
   },
   {
+    path: "/major",
+    component: Home,
+    children: [
+      {
+        path: "",
+        name: "major",
+        component: () => import("./views/major"),
+      },
+    ],
+  },
+  {
+    path: "/college",
+    component: Home,
+    children: [
+      {
+        path: "",
+        name: "college",
+        component: () => import("./views/college"),
+      },
+    ],
+  },
+  {
+    path: "/class",
+    component: Home,
+    children: [
+      {
+        path: "",
+        name: "class",
+        component: () => import("./views/class"),
+      },
+    ],
+  },
+  {
+    path: "/semester",
+    component: Home,
+    children: [
+      {
+        path: "/semester/index",
+        name: "semester",
+        component: () => import("./views/semester/index"),
+      },
+      {
+        path: "/semester/schoolyear",
+        name: "schoolyear",
+        component: () => import("./views/semester/schoolyear"),
+      },
+    ],
+  },
+  {
     path: "/classArea",
     component: Home,
     children: [
