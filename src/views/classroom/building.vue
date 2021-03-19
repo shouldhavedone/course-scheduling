@@ -71,7 +71,7 @@
 import cheader from "@/components/header";
 import ctable from "@/components/table";
 import cpagenation from "@/components/pagenation";
-import api from "@/api/building";
+import api from "@/api/classroom";
 
 export default {
   components: {
