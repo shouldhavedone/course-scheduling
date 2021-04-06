@@ -129,15 +129,15 @@ export default {
       border: 1px solid rgba(147, 187, 255);
     }
 
-    th {
-      font-size: 14px;
-    }
+    // th {
+    //   font-size: 14px;
+    // }
 
-    tr td {
-      font-size: 12px;
-      color: rgba(51, 51, 51, 1);
-      padding: 4px 0;
-    }
+    // tr td {
+    //   font-size: 12px;
+    //   color: rgba(51, 51, 51, 1);
+    //   padding: 4px 0;
+    // }
   }
 }
 </style>

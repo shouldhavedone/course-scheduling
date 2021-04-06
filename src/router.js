@@ -71,6 +71,17 @@ const routes = [
     ],
   },
   {
+    path: "/courseType",
+    component: Home,
+    children: [
+      {
+        path: "",
+        name: "courseType",
+        component: () => import("./views/courseType/index.vue"),
+      },
+    ],
+  },
+  {
     path: "/semester",
     component: Home,
     children: [
