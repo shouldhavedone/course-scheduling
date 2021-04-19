@@ -226,11 +226,9 @@ export default {
 
     handleSelectionChange(val) {
       this.selectSemester = val.map((c) => c.id);
-      console.log(this.selectSemester);
     },
 
     showDetail(obj) {
-      console.log(obj);
       this.resetDialog();
       this.isEdit = true;
       this.dialogVisible = true;
@@ -282,7 +280,6 @@ export default {
       const res = await this.$http.get(
         `${api.getSemesterList}?${this.$qs.stringify(params)}`
       );
-      console.log(res);
       this.loading = false;
       if (res && res.isSucceed) {
         res.data.forEach((c) => {

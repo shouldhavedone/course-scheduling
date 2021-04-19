@@ -1,33 +1,40 @@
 <template>
   <div class="header-container">
     <div class="logo-container">
-      <img src="" alt="" />
+      <img src alt />
     </div>
 
     <div class="content-wrap">
       <div class="left-container">
-        <span @click="toggleNav(false)" v-if="hideNav"><i class="iconfont icontoggle-left"></i></span>
-        <span @click="toggleNav(true)" v-else><i class="iconfont icontoggle-right"></i></span>
+        <span @click="toggleNav(false)" v-if="hideNav">
+          <i class="iconfont icontoggle-left"></i>
+        </span>
+        <span @click="toggleNav(true)" v-else>
+          <i class="iconfont icontoggle-right"></i>
+        </span>
       </div>
       <div class="right-container">
-        <span @click="screenfull"
-          ><i class="iconfont iconeditor-screen-full"></i
-        ></span>
-        <span><i class="iconfont iconziyuan"></i></span>
-        <el-dropdown>
+        <span @click="screenfull">
+          <i class="iconfont iconeditor-screen-full"></i>
+        </span>
+        <span>
+          <i class="iconfont iconziyuan"></i>
+        </span>
+        <el-dropdown  @command="dropdownClick">
           <span class="el-dropdown-link">
-            你好! {{ "管理员"}}<i class="el-icon-arrow-down el-icon--right"></i>
+            你好! {{ "管理员"}}
+            <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item disabled divided
-              ><i class="iconfont icontype"></i>修改主题</el-dropdown-item
-            >
-            <el-dropdown-item divided
-              ><i class="iconfont iconuserinfo"></i>个人中心</el-dropdown-item
-            >
-            <el-dropdown-item divided
-              ><i class="iconfont iconlog-out"></i>退出登录</el-dropdown-item
-            >
+            <el-dropdown-item disabled divided command='changeType'>
+              <i class="iconfont icontype"></i>修改主题
+            </el-dropdown-item>
+            <el-dropdown-item divided>
+              <i class="iconfont iconuserinfo" command='userHome'></i>个人中心
+            </el-dropdown-item>
+            <el-dropdown-item divided command="logout">
+              <i class="iconfont iconlog-out"></i>退出登录
+            </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -37,12 +44,11 @@
 <script>
 import screenfull from "screenfull";
 export default {
-
-  props: ['isCollapse'],
+  props: ["isCollapse"],
   data() {
     return {
       isFullscreen: false,
-      hideNav: false,
+      hideNav: false
     };
   },
   methods: {
@@ -51,7 +57,7 @@ export default {
       if (!screenfull.isEnabled) {
         this.$message({
           message: "Your browser does not work",
-          type: "warning",
+          type: "warning"
         });
         return false;
       }
@@ -76,6 +82,24 @@ export default {
       // this.hideNav = val;
       // this.$emit("toggleNav", val);
     },
+
+    logout() {
+      this.$store.commit("SET_TOKEN", null);
+      this.$store.commit("SET_USER", "");
+      this.$router.push('/login')
+    },
+
+    dropdownClick(command) {
+      switch(command) {
+        case 'logout': 
+          this.logout();
+          break;
+        case 'userHome':
+          break;
+        case 'changeType' :
+          break;
+      }
+    },
   },
 
   mounted() {
@@ -84,7 +108,7 @@ export default {
         this.isFullscreen = false;
       }
     };
-  },
+  }
 };
 </script>
 <style lang="less">
@@ -126,7 +150,7 @@ export default {
     display: flex;
     align-items: center;
     padding: 0 20px * @width;
-    
+
     & > span {
       height: 40px * @height;
       line-height: 40px * @height;

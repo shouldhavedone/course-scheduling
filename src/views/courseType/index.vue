@@ -134,7 +134,6 @@ export default {
 
     handleSelectionChange(val) {
       this.selectCourseType = val.map(c => c.id);
-      console.log(this.selectCourseType);
     },
 
     showDetail(obj) {
@@ -178,7 +177,6 @@ export default {
       const res = await this.$http.get(
         `${api.getCourseTypeList}?${this.$qs.stringify(params)}`
       );
-      console.log(res);
       this.loading = false;
       if (res && res.isSucceed) {
         res.data.forEach(c => {

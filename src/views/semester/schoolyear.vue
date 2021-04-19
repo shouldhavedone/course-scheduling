@@ -141,7 +141,6 @@ export default {
 
     handleSelectionChange(val) {
       this.selectSchoolyear = val.map((c) => c.id);
-      console.log(this.selectSchoolyear);
     },
 
     showDetail(obj) {
@@ -185,7 +184,6 @@ export default {
       const res = await this.$http.get(
         `${api.getSchoolyearList}?${this.$qs.stringify(params)}`
       );
-      console.log(res);
       this.loading = false;
       if (res && res.isSucceed) {
         res.data.forEach((c) => {

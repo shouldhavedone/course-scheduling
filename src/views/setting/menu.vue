@@ -218,11 +218,9 @@ export default {
 
     handleSelectionChange(val) {
       this.selectMenu = val.map((c) => c.id);
-      console.log(this.selectMenu);
     },
 
     showDetail(obj) {
-      console.log(obj);
       this.resetDialog();
       this.isEdit = true;
       this.dialogVisible = true;
@@ -271,7 +269,6 @@ export default {
       const res = await this.$http.get(
         `${api.getMenuList}?${this.$qs.stringify(params)}`
       );
-      console.log(res);
       this.loading = false;
       if (res && res.isSucceed) {
         res.data.forEach((c) => {

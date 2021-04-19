@@ -146,7 +146,6 @@ export default {
 
     handleSelectionChange(val) {
       this.selectCollege = val.map((c) => c.id);
-      console.log(this.selectCollege);
     },
 
     showDetail(obj) {
@@ -190,7 +189,6 @@ export default {
       const res = await this.$http.get(
         `${api.getCollegeList}?${this.$qs.stringify(params)}`
       );
-      console.log(res);
       this.loading = false;
       if (res && res.isSucceed) {
         res.data.forEach((c) => {

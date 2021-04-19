@@ -203,11 +203,9 @@ export default {
 
     handleSelectionChange(val) {
       this.selectUser = val.map((c) => c.id);
-      console.log(this.selectUser);
     },
 
     showDetail(obj) {
-      console.log(obj);
       this.resetDialog();
       this.isEdit = true;
       this.dialogVisible = true;
@@ -252,7 +250,6 @@ export default {
       const res = await this.$http.get(
         `${api.getUserList}?${this.$qs.stringify(params)}`
       );
-      console.log(res);
       this.loading = false;
       if (res && res.isSucceed) {
         res.data.forEach((c) => {
