@@ -150,7 +150,7 @@
 import cheader from "@/components/header";
 import ctable from "@/components/table";
 import cpagenation from "@/components/pagenation";
-import api from "@/api/teacher";
+import api from "@/api/people";
 
 export default {
   components: {

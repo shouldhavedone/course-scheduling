@@ -59,13 +59,18 @@ const routes = [
     ],
   },
   {
-    path: "/teacher",
+    path: "/people",
     component: Home,
     children: [
       {
-        path: "",
+        path: "/people/teacher",
         name: "teacher",
-        component: () => import("./views/teacher"),
+        component: () => import("./views/people/teacher"),
+      },
+      {
+        path: "/people/student",
+        name: "student",
+        component: () => import("./views/people/student"),
       },
     ],
   },
