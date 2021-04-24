@@ -31,53 +31,41 @@ const routes = [
     component: Home,
     children: [
       {
-        path: "",
+        path: "/course/index",
         name: "course",
-        component: () => import("./views/course"),
+        component: () => import("./views/course/index"),
+      },
+      {
+        path: "/course/type",
+        name: "type",
+        component: () => import("./views/course/type"),
       },
     ],
   },
   {
-    path: "/major",
+    path: "/schedule",
     component: Home,
     children: [
       {
-        path: "",
-        name: "major",
-        component: () => import("./views/major"),
+        path: "/schedule/index",
+        name: "schedule",
+        component: () => import("./views/schedule/index"),
+      },
+      {
+        path: "/schedule/list",
+        name: "list",
+        component: () => import("./views/schedule/list"),
       },
     ],
   },
   {
-    path: "/college",
+    path: "/teacher",
     component: Home,
     children: [
       {
         path: "",
-        name: "college",
-        component: () => import("./views/college"),
-      },
-    ],
-  },
-  {
-    path: "/class",
-    component: Home,
-    children: [
-      {
-        path: "",
-        name: "class",
-        component: () => import("./views/class"),
-      },
-    ],
-  },
-  {
-    path: "/courseType",
-    component: Home,
-    children: [
-      {
-        path: "",
-        name: "courseType",
-        component: () => import("./views/courseType/index.vue"),
+        name: "teacher",
+        component: () => import("./views/teacher"),
       },
     ],
   },
@@ -94,6 +82,27 @@ const routes = [
         path: "/semester/schoolyear",
         name: "schoolyear",
         component: () => import("./views/semester/schoolyear"),
+      },
+    ],
+  },
+  {
+    path: "/unit",
+    component: Home,
+    children: [
+      {
+        path: "/unit/college",
+        name: "college",
+        component: () => import("./views/unit/college"),
+      },
+      {
+        path: "/unit/major",
+        name: "major",
+        component: () => import("./views/unit/major"),
+      },
+      {
+        path: "/unit/class",
+        name: "class",
+        component: () => import("./views/unit/class"),
       },
     ],
   },

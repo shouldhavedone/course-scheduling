@@ -84,15 +84,16 @@ export default {
           minWidth: 141
         },
         {
+          prop: "count",
+          label: "课程数量",
+          minWidth: 77
+        },
+        {
           prop: "createtime",
           label: "创建时间",
           minWidth: 180
         },
-        {
-          prop: "count",
-          label: "教室数量",
-          minWidth: 77
-        }
+        
       ],
       tableSettings: {
         page: 1,
@@ -183,6 +184,7 @@ export default {
           c.createtime = this.$moment(new Date(c.createtime)).format(
             "YYYY-MM-DD hh:mm:ss"
           );
+          c.count = c.Courses.length
         });
         this.tableData = res.data;
         this.pageparams.total = res.total;

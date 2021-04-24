@@ -73,6 +73,8 @@
           </el-table-column>
           <el-table-column prop="name" label="名称" min-width="140">
           </el-table-column>
+          <el-table-column prop="count" label="容纳人数" min-width="100">
+          </el-table-column>
           <el-table-column prop="building" label="教学楼" min-width="140">
             <template slot-scope="scope">
               {{ scope.row.Building.name }}
@@ -122,6 +124,9 @@
             v-model="reqData.name"
             placeholder="请输入教室名"
           ></el-input>
+        </el-form-item>
+        <el-form-item label="容纳人数">
+          <el-input-number v-model="reqData.count" controls-position="right" :min="1"></el-input-number>
         </el-form-item>
         <el-form-item label="教学楼">
           <el-select
@@ -178,6 +183,7 @@ export default {
       reqData: {
         id: "",
         name: "",
+        count: 1,
         building_id: "",
         createtime: "",
       },
@@ -226,6 +232,7 @@ export default {
       this.reqData = {
         id: "",
         name: "",
+        count: "",
         building_id: "",
       };
     },

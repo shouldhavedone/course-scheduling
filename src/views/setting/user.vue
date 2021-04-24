@@ -78,8 +78,8 @@
               {{ scope.row.Role.name }}
             </template>
           </el-table-column>
-          <el-table-column prop="password" label="密码" min-width="140">
-          </el-table-column>
+          <!-- <el-table-column prop="password" label="密码" min-width="140">
+          </el-table-column> -->
           <el-table-column
             prop="createtime"
             label="创建时间"

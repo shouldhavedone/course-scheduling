@@ -2,7 +2,7 @@
   <div class="login-content">
     <div class="login-form">
       <div class="right-from">
-        <p class="title">管理员登录</p>
+        <p class="title">大学生排课系统</p>
         <el-form
           :model="ruleForm"
           :rules="rules"
@@ -39,7 +39,7 @@
       </div>
     </div>
     <footer>
-      <p>Copyright© 2020-2020 wutao All Rights Reserved.</p>
+      <!-- <p>Copyright© 2020-2020 wutao All Rights Reserved.</p> -->
     </footer>
   </div>
 </template>

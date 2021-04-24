@@ -68,6 +68,8 @@
           <el-table-column prop="courseType" label="课程类型" min-width="140">
             <template slot-scope="scope">{{ scope.row.CourseType.name }}</template>
           </el-table-column>
+          <el-table-column prop="week" label="教学周" min-width="80">
+          </el-table-column>
           <el-table-column prop="credit" label="学分" min-width="80"></el-table-column>
           <el-table-column prop="class_hours" label="学时" min-width="80"></el-table-column>
           <el-table-column
@@ -108,6 +110,9 @@
               :value="item.id"
             ></el-option>
           </el-select>
+        </el-form-item>
+        <el-form-item label="教学周">
+          <el-input-number v-model="reqData.week" controls-position="right" :min="0"></el-input-number>
         </el-form-item>
         <el-form-item label="学时">
           <el-input v-model="reqData.class_hours" placeholder="请输入课程学时"></el-input>
@@ -156,6 +161,7 @@ export default {
         id: "",
         name: "",
         course_type_id: "",
+        week: 0,
         createtime: "",
         credit: 0,
         class_hours: 0,
@@ -206,6 +212,7 @@ export default {
         id: "",
         name: "",
         course_type_id: "",
+        week: 0,
         credit: 0,
         class_hours: 0,
       };

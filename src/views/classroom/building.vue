@@ -195,6 +195,7 @@ export default {
           c.createtime = this.$moment(new Date(c.createtime)).format(
             "YYYY-MM-DD hh:mm:ss"
           );
+          c.count = c.Classrooms ? c.Classrooms.length: 0
         });
         this.tableData = res.data;
         this.pageparams.total = res.total;
@@ -224,10 +225,10 @@ export default {
       if (res && res.isSucceed) {
         this.$message.success(res.message);
         this.selectBuilding = [];
-        this.$nextTick(() => {
-          this.getBuildingList();
-        });
       }
+      this.$nextTick(() => {
+        this.getBuildingList();
+      })
     },
   },
 };

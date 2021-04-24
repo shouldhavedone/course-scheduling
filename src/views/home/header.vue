@@ -1,7 +1,7 @@
 <template>
   <div class="header-container">
     <div class="logo-container">
-      <img src alt />
+      <img src="../../assets/images/logo.png" alt />
     </div>
 
     <div class="content-wrap">
@@ -44,7 +44,6 @@
 <script>
 import screenfull from "screenfull";
 export default {
-  props: ["isCollapse"],
   data() {
     return {
       isFullscreen: false,
@@ -79,8 +78,8 @@ export default {
     },
 
     toggleNav(val) {
-      // this.hideNav = val;
-      // this.$emit("toggleNav", val);
+      this.hideNav = val;
+      this.$emit("toggleSide", val);
     },
 
     logout() {
@@ -128,8 +127,7 @@ export default {
   .logo-container {
     height: 100%;
     width: @width1;
-    background-color: #ccc;
-    padding: 6px * @height 10px * @width;
+    padding: 6px * @height 30px * @width;
 
     img {
       height: 100%;

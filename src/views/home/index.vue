@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-container>
       <el-header>
-        <cheader :isCollapse="isCollapse" @toggleNav="toggleNav"></cheader>
+        <cheader :isCollapse="isCollapse" @toggleSide="toggleSide"></cheader>
       </el-header>
       <el-container class="content-wrap">
         <el-aside>
@@ -17,7 +17,7 @@
                 text-color="#fff"
                 router
               >
-                <cside :navMenus="menuList"></cside>
+                <cside :navMenus="menuList" :isCollapse="isCollapse"></cside>
               </el-menu>
             </el-scrollbar>
           </div>
@@ -71,7 +71,7 @@ export default {
       }
     },
 
-    toggleNav(val) {
+    toggleSide(val) {
       this.isCollapse = val;
     },
   },

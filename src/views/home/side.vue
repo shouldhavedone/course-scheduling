@@ -1,5 +1,5 @@
 <template>
-  <div class="menu-content">
+  <div class="menu-content" :class="isCollapse ? 'hide-content': ''">
     <div v-for="(item, index) in navMenus" :key="index">
       <el-menu-item
         v-if="!item.Menus || item.Menus.length == 0"
@@ -22,7 +22,7 @@
 </template>
 <script>
 export default {
-  props: ["navMenus"],
+  props: ["navMenus", "isCollapse"],
   name: "NavMenu",
   data() {
     return {};
@@ -53,6 +53,16 @@ export default {
     text-align: left;
     font-size: 16px;
     margin-right: 10px;
+  }
+}
+
+.hide-content {
+  .el-submenu__title span {
+    display: none;
+  }
+
+  .el-submenu__icon-arrow {
+    display: none;
   }
 }
 
