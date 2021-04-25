@@ -20,7 +20,7 @@
           </el-select>
         </div>
         <div class="btn-wrap">
-          <el-button type="primary">自动排课</el-button>
+          <el-button type="primary" @click="onClick">自动排课</el-button>
           <el-button type="primary">
             清空
             <i class="el-icon-delete-solid el-icon--right"></i>
@@ -136,22 +136,22 @@ export default {
         {
           section: "一",
           one: {
-            course: "高等数学",
-            teacher: "张三",
-            room: "2-102",
-            count: 50,
-            teachClass: 156,
-            hour: 2
+            // course: "高等数学",
+            // teacher: "张三",
+            // room: "2-102",
+            // count: 50,
+            // teachClass: 156,
+            // hour: 2
           },
           two: {},
           three: {},
           four: {
-            course: "高等数学",
-            teacher: "张三",
-            room: "2-102",
-            count: 50,
-            teachClass: "321",
-            hour: 2
+            // course: "高等数学",
+            // teacher: "张三",
+            // room: "2-102",
+            // count: 50,
+            // teachClass: "321",
+            // hour: 2
           },
           five: {},
           six: {},
@@ -164,12 +164,12 @@ export default {
           three: {},
           four: {},
           five: {
-            course: "高等数学",
-            teacher: "张三",
-            room: "2-102",
-            count: 50,
-            teachClass: "321",
-            hour: 2
+            // course: "高等数学",
+            // teacher: "张三",
+            // room: "2-102",
+            // count: 50,
+            // teachClass: "321",
+            // hour: 2
           },
           six: {},
           seven: {}
@@ -178,12 +178,12 @@ export default {
           section: "三",
           one: {},
           two: {
-            course: "高等数学",
-            teacher: "张三",
-            room: "2-102",
-            count: 50,
-            teachClass: "321",
-            hour: 2
+            // course: "高等数学",
+            // teacher: "张三",
+            // room: "2-102",
+            // count: 50,
+            // teachClass: "321",
+            // hour: 2
           },
           three: {},
           four: {},
@@ -194,12 +194,12 @@ export default {
         {
           section: "四",
           one: {
-            course: "高等数学",
-            teacher: "张三",
-            room: "2-102",
-            count: 50,
-            teachClass: "321",
-            hour: 2
+            // course: "高等数学",
+            // teacher: "张三",
+            // room: "2-102",
+            // count: 50,
+            // teachClass: "321",
+            // hour: 2
           },
           two: {},
           three: {},
@@ -240,7 +240,11 @@ export default {
       if (res && res.isSucceed) {
         this.majorList = res.data;
       }
-    }
+    },
+
+    onClick() {
+      this.$message.error('请选择学期')
+    },
   }
 };
 </script>

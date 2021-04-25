@@ -22,7 +22,7 @@
         </span>
         <el-dropdown  @command="dropdownClick">
           <span class="el-dropdown-link">
-            你好! {{ "管理员"}}
+            你好! {{ username }}
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
@@ -43,13 +43,16 @@
 </template>
 <script>
 import screenfull from "screenfull";
+import { getSession } from "@/utils/auth"
 export default {
   data() {
     return {
       isFullscreen: false,
-      hideNav: false
+      hideNav: false,
+      username: JSON.parse(getSession('userInfo')).username,
     };
   },
+
   methods: {
     // 全屏事件
     screenfull() {

@@ -94,14 +94,14 @@
     </div>
 
     <el-dialog :title="isEdit ? '编辑课程' : '新增课程'" :visible.sync="dialogVisible">
-      <el-form :model="reqData" label-width="80px">
+      <el-form :model="reqData" label-width="80px" :rules="rules">
         <el-form-item v-if="isEdit" label="课程ID">
           <el-input v-model="reqData.id" disabled></el-input>
         </el-form-item>
-        <el-form-item label="课程名">
+        <el-form-item label="课程名" prop="name">
           <el-input v-model="reqData.name" placeholder="请输入课程名"></el-input>
         </el-form-item>
-        <el-form-item label="课程类型">
+        <el-form-item label="课程类型" prop="coursetype">
           <el-select v-model="reqData.course_type_id" clearable placeholder="请选择课程类型">
             <el-option
               v-for="item in courseTypeList"
@@ -111,14 +111,14 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="教学周">
+        <el-form-item label="教学周" prop="week">
           <el-input-number v-model="reqData.week" controls-position="right" :min="0"></el-input-number>
         </el-form-item>
-        <el-form-item label="学时">
-          <el-input v-model="reqData.class_hours" placeholder="请输入课程学时"></el-input>
+        <el-form-item label="学时" prop="hours">
+          <el-input-number v-model="reqData.class_hours" controls-position="right" :min="0"></el-input-number>
         </el-form-item>
-        <el-form-item label="学分">
-          <el-input v-model="reqData.credit" placeholder="请输入课程学分"></el-input>
+        <el-form-item label="学分" prop="credit">
+          <el-input-number v-model="reqData.credit" controls-position="right" :min="0"></el-input-number>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -168,7 +168,24 @@ export default {
       },
       isEdit: false,
       selectCourse: [],
-      courseTypeList: []
+      courseTypeList: [],
+      rules: {
+          name: [
+            { required: true, message: '请输入课程名', trigger: 'blur' },
+          ],
+          coursetype: [
+            { required: true, message: '请选择课程类型', trigger: 'change' }
+          ],
+          week: [
+            { required: true, message: '请输入教学周', trigger: 'blur' }
+          ],
+          hours: [
+            { required: true, message: '请输入学时', trigger: 'blur' }
+          ],
+          credit: [
+            { required: true, message: '请输入学分', trigger: 'blur' }
+          ],
+        }
     };
   },
 

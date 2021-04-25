@@ -27,6 +27,17 @@ const routes = [
     ],
   },
   {
+    path: "/emptyroom",
+    component: Home,
+    children: [
+      {
+        path: "/emptyroom",
+        name: "emptyroom",
+        component: () => import("./views/emptyroom/index"),
+      },
+    ],
+  },
+  {
     path: "/course",
     component: Home,
     children: [
@@ -55,6 +66,22 @@ const routes = [
         path: "/schedule/list",
         name: "list",
         component: () => import("./views/schedule/list"),
+      },
+    ],
+  },
+  {
+    path: "/timetable",
+    component: Home,
+    children: [
+      {
+        path: "/timetable/teacher",
+        name: "teacherTimetable",
+        component: () => import("./views/timetable/teacher"),
+      },
+      {
+        path: "/timetable/student",
+        name: "studentTimetable",
+        component: () => import("./views/timetable/student"),
       },
     ],
   },

@@ -132,29 +132,29 @@
     </div>
 
     <el-dialog :title="isEdit ? '编辑学生' : '新增学生'" :visible.sync="dialogVisible">
-      <el-form :model="reqData" label-width="80px">
+      <el-form :model="reqData" label-width="80px" :rules="rules">
         <el-form-item v-if="isEdit" label="学生ID">
           <el-input v-model="reqData.id" disabled></el-input>
         </el-form-item>
-        <el-form-item label="学生名">
+        <el-form-item label="学生名" prop="name">
           <el-input v-model="reqData.name" placeholder="请输入学生名"></el-input>
         </el-form-item>
-        <el-form-item label="所属专业">
+        <el-form-item label="所属专业" prop="major">
           <el-select v-model="reqData.major_id" clearable placeholder="请选择专业">
             <el-option v-for="item in majorList" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="所属班级">
+        <el-form-item label="所属班级" prop="class">
           <el-select v-model="reqData.class_id" clearable placeholder="请选择班级">
             <el-option v-for="item in classList" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="年级">
+        <el-form-item label="年级" prop="grade">
           <el-select v-model="reqData.grade" clearable placeholder="请选择年级">
             <el-option v-for="(item, index) in gradeList" :key="index" :label="item" :value="item"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="学期">
+        <el-form-item label="学期" prop="schoolyear">
           <el-select v-model="reqData.schoolyear_id" clearable placeholder="请选择学年">
             <el-option
               v-for="item in schoolyearList"
@@ -226,7 +226,24 @@ export default {
         "2022",
         "2023",
         "2024"
-      ]
+      ],
+      rules: {
+        name: [
+          { required: true, message: '请输入学生姓名', trigger: 'blur' },
+        ],
+        major: [
+          { required: true, message: '请选择所属专业', trigger: 'change' }
+        ],
+        class: [
+          { required: true, message: '请选择所属班级', trigger: 'change' }
+        ],
+        grade: [
+          { required: true, message: '请选择年级', trigger: 'change' }
+        ],
+        schoolyear: [
+          { required: true, message: '请选择学期', trigger: 'change' }
+        ],
+      },
     };
   },
 

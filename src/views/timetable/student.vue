@@ -1,6 +1,6 @@
 <template>
   <div class="schedule-container">
-    <cheader title="排课管理"></cheader>
+    <cheader title="查看课表"></cheader>
     <div class="content-wrap">
       <div class="filter-wrap">
         <div class="search-wrap">
@@ -12,12 +12,10 @@
               :value="item.id"
             ></el-option>
           </el-select>
-          <el-select v-model="selectMajor" clearable placeholder="请选择专业" class="select-box">
-            <el-option v-for="item in majorList" :key="item.id" :label="item.name" :value="item.id"></el-option>
+          <el-select v-model="selectCourse" clearable placeholder="请选择课程" class="select-box">
+            <el-option v-for="item in courseList" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
-          <el-select v-model="selectGrade" clearable placeholder="请选择年级" class="select-box">
-            <el-option v-for="(item, index) in gradeList" :key="index" :label="item" :value="item"></el-option>
-          </el-select>
+          
         </div>
         <div class="btn-wrap">
           <el-button type="primary">
@@ -118,10 +116,10 @@ export default {
     return {
       loading: false,
       selectSemester: "",
-      selectMajor: "",
+      selectCourse: "",
       selectGrade: "",
       semesterList: [],
-      majorList: [],
+      courseList: [],
       gradeList: [
         "2017",
         "2018",
@@ -132,6 +130,7 @@ export default {
         "2023",
         "2024"
       ],
+      
       tableData: [
         {
           section: "一",
@@ -224,7 +223,7 @@ export default {
 
   mounted() {
     this.getSemesterList();
-    this.getMajorList();
+    this.getCourseList();
   },
 
   methods: {
@@ -235,10 +234,10 @@ export default {
       }
     },
 
-    async getMajorList() {
-      const res = await this.$http.get(api.getAllMajor);
+    async getCourseList() {
+      const res = await this.$http.get(api.getAllCourse);
       if (res && res.isSucceed) {
-        this.majorList = res.data;
+        this.courseList = res.data;
       }
     }
   }

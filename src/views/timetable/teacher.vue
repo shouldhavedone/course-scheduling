@@ -1,6 +1,6 @@
 <template>
   <div class="schedule-container">
-    <cheader title="排课管理"></cheader>
+    <cheader title="查看课表"></cheader>
     <div class="content-wrap">
       <div class="filter-wrap">
         <div class="search-wrap">
@@ -12,11 +12,14 @@
               :value="item.id"
             ></el-option>
           </el-select>
+          <el-select v-model="selectGrade" clearable placeholder="请选择年级" class="select-box">
+            <el-option v-for="(item, index) in gradeList" :key="index" :label="item" :value="item"></el-option>
+          </el-select>
           <el-select v-model="selectMajor" clearable placeholder="请选择专业" class="select-box">
             <el-option v-for="item in majorList" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
-          <el-select v-model="selectGrade" clearable placeholder="请选择年级" class="select-box">
-            <el-option v-for="(item, index) in gradeList" :key="index" :label="item" :value="item"></el-option>
+          <el-select v-model="selectClass" clearable placeholder="请选择班级" class="select-box">
+            <el-option v-for="item in classList" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
         </div>
         <div class="btn-wrap">
@@ -120,7 +123,9 @@ export default {
       selectSemester: "",
       selectMajor: "",
       selectGrade: "",
+      selectClass: "",
       semesterList: [],
+      classList: [],
       majorList: [],
       gradeList: [
         "2017",
@@ -135,7 +140,8 @@ export default {
       tableData: [
         {
           section: "一",
-          one: {
+          one: {},
+          two: {
             course: "高等数学",
             teacher: "张三",
             room: "2-102",
@@ -143,24 +149,6 @@ export default {
             teachClass: 156,
             hour: 2
           },
-          two: {},
-          three: {},
-          four: {
-            course: "高等数学",
-            teacher: "张三",
-            room: "2-102",
-            count: 50,
-            teachClass: "321",
-            hour: 2
-          },
-          five: {},
-          six: {},
-          seven: {}
-        },
-        {
-          section: "二",
-          one: {},
-          two: {},
           three: {},
           four: {},
           five: {
@@ -171,6 +159,23 @@ export default {
             teachClass: "321",
             hour: 2
           },
+          six: {},
+          seven: {}
+        },
+        {
+          section: "二",
+          one: {
+            course: "高等数学",
+            teacher: "张三",
+            room: "2-102",
+            count: 50,
+            teachClass: "321",
+            hour: 2
+          },
+          two: {},
+          three: {},
+          four: {},
+          five: {},
           six: {},
           seven: {}
         },
@@ -193,7 +198,10 @@ export default {
         },
         {
           section: "四",
-          one: {
+          one: {},
+          two: {},
+          three: {},
+          four: {
             course: "高等数学",
             teacher: "张三",
             room: "2-102",
@@ -201,9 +209,6 @@ export default {
             teachClass: "321",
             hour: 2
           },
-          two: {},
-          three: {},
-          four: {},
           five: {},
           six: {},
           seven: {}
@@ -225,6 +230,7 @@ export default {
   mounted() {
     this.getSemesterList();
     this.getMajorList();
+    this.getClassList()
   },
 
   methods: {
@@ -239,6 +245,13 @@ export default {
       const res = await this.$http.get(api.getAllMajor);
       if (res && res.isSucceed) {
         this.majorList = res.data;
+      }
+    },
+
+    async getClassList() {
+      const res = await this.$http.get(api.getAllClass);
+      if (res && res.isSucceed) {
+        this.classList = res.data;
       }
     }
   }
