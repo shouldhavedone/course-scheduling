@@ -20,17 +20,17 @@
         <span>
           <i class="iconfont iconziyuan"></i>
         </span>
-        <el-dropdown  @command="dropdownClick">
+        <el-dropdown @command="dropdownClick">
           <span class="el-dropdown-link">
             你好! {{ username }}
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item disabled divided command='changeType'>
+            <el-dropdown-item disabled divided command="changeType">
               <i class="iconfont icontype"></i>修改主题
             </el-dropdown-item>
-            <el-dropdown-item divided>
-              <i class="iconfont iconuserinfo" command='userHome'></i>个人中心
+            <el-dropdown-item divided command="userHome">
+              <i class="iconfont iconuserinfo"></i>修改账户
             </el-dropdown-item>
             <el-dropdown-item divided command="logout">
               <i class="iconfont iconlog-out"></i>退出登录
@@ -39,27 +39,111 @@
         </el-dropdown>
       </div>
     </div>
+
+    <el-dialog title="修改个人信息" :visible.sync="dialogVisible">
+      <el-form :model="reqData" label-width="80px" :rules="rules">
+        <el-form-item label="用户名" prop="username">
+          <el-input
+            v-model="reqData.username"
+            placeholder="请输入用户名"
+            clearable
+            autocomplete="off"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="旧密码" prop="password">
+          <el-input
+            type="password"
+            v-model="reqData.password"
+            autocomplete="off"
+            placeholder="请输入旧密码"
+            clearable
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="新密码" prop="newpassword">
+          <el-input
+            type="password"
+            v-model="reqData.newpassword"
+            autocomplete="off"
+            placeholder="请输入新密码"
+            clearable
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="确认密码" prop="repassword">
+          <el-input
+            type="password"
+            v-model="reqData.repassword"
+            autocomplete="off"
+            placeholder="请再次输入密码"
+            clearable
+          ></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="closeDialog">取 消</el-button>
+        <el-button type="primary" @click="modifyUser">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
 import screenfull from "screenfull";
-import { getSession } from "@/utils/auth"
+import api from "@/api/user";
+import { getSession } from "@/utils/auth";
 export default {
   data() {
+    var validatePass = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入新密码"));
+      } else {
+        if (this.reqData.newpassword !== "") {
+          this.$refs.reqData.validateField("repassword");
+        }
+        callback();
+      }
+    };
+    var validatePass2 = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请再次输入密码"));
+      } else if (value !== this.reqData.newpassword) {
+        callback(new Error("两次输入密码不一致!"));
+      } else {
+        callback();
+      }
+    };
     return {
       isFullscreen: false,
       hideNav: false,
-      username: JSON.parse(getSession('userInfo')).username,
+      username: JSON.parse(getSession("userInfo")).username,
+      dialogVisible: false,
+      reqData: {
+        username: "",
+        password: "",
+        newpassword: "",
+        repassword: "",
+      },
+      rules: {
+        username: [
+          { required: true, message: "请输入用户名", trigger: "blur" },
+        ],
+        password: [
+          { required: true, message: "请输入旧密码", trigger: "blur" },
+        ],
+        newpassword: [
+          { required: true, validator: validatePass, trigger: "blur" },
+        ],
+        repassword: [
+          { required: true, validator: validatePass2, trigger: "blur" },
+        ],
+      },
     };
   },
 
   methods: {
-    // 全屏事件
     screenfull() {
       if (!screenfull.isEnabled) {
         this.$message({
           message: "Your browser does not work",
-          type: "warning"
+          type: "warning",
         });
         return false;
       }
@@ -67,7 +151,6 @@ export default {
       this.isFullscreen = true;
     },
 
-    // 是否全屏并按键ESC键
     checkFull() {
       var isFull =
         document.fullscreenEnabled ||
@@ -88,17 +171,51 @@ export default {
     logout() {
       this.$store.commit("SET_TOKEN", null);
       this.$store.commit("SET_USER", "");
-      this.$router.push('/login')
+      this.$router.push("/login");
+    },
+
+    clearData() {
+      this.reqData = {
+        username: "",
+        password: "",
+        newpassword: "",
+        repassword: "",
+      };
+    },
+
+    showDialog() {
+      this.clearData()
+      this.dialogVisible = true;
+    },
+
+    closeDialog() {
+      this.dialogVisible = false;
+    },
+
+    async modifyUser() {
+      this.dialogVisible = false;
+      const params = {
+        id: JSON.parse(getSession("userInfo")).id,
+        ...this.reqData,
+      };
+      const res = await this.$http.post(api.updateUser, params);
+      if (res && res.isSucceed) {
+        this.$message.success(res.message);
+        this.logout();
+      } else {
+        this.$message.error(res.message);
+      }
     },
 
     dropdownClick(command) {
-      switch(command) {
-        case 'logout': 
+      switch (command) {
+        case "logout":
           this.logout();
           break;
-        case 'userHome':
+        case "userHome":
+          this.showDialog();
           break;
-        case 'changeType' :
+        case "changeType":
           break;
       }
     },
@@ -110,7 +227,7 @@ export default {
         this.isFullscreen = false;
       }
     };
-  }
+  },
 };
 </script>
 <style lang="less">

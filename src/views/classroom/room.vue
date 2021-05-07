@@ -75,6 +75,8 @@
           </el-table-column>
           <el-table-column prop="count" label="容纳人数" min-width="100">
           </el-table-column>
+          <el-table-column prop="area" label="教室面积" min-width="100">
+          </el-table-column>
           <el-table-column prop="building" label="教学楼" min-width="140">
             <template slot-scope="scope">
               {{ scope.row.Building.name }}
@@ -125,9 +127,6 @@
             placeholder="请输入教室名"
           ></el-input>
         </el-form-item>
-        <el-form-item label="容纳人数">
-          <el-input-number v-model="reqData.count" controls-position="right" :min="1"></el-input-number>
-        </el-form-item>
         <el-form-item label="教学楼">
           <el-select
             v-model="reqData.building_id"
@@ -143,6 +142,13 @@
             </el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="容纳人数">
+          <el-input-number v-model="reqData.count" controls-position="right" :min="1"></el-input-number>
+        </el-form-item>
+        <el-form-item label="面积">
+          <el-input-number v-model="reqData.area" controls-position="right" :precision="2" :step="0.1" :min="1"></el-input-number>
+        </el-form-item>
+        
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancelSave">取 消</el-button>
@@ -184,6 +190,7 @@ export default {
         id: "",
         name: "",
         count: 1,
+        area: 1,
         building_id: "",
         createtime: "",
       },
@@ -232,7 +239,8 @@ export default {
       this.reqData = {
         id: "",
         name: "",
-        count: "",
+        count: 1,
+        area: 1,
         building_id: "",
       };
     },

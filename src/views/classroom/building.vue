@@ -59,6 +59,12 @@
             placeholder="请输入教学楼名"
           ></el-input>
         </el-form-item>
+        <el-form-item label="楼层数">
+          <el-input-number v-model="reqData.floor" controls-position="right" :min="1" :max="100"></el-input-number>
+        </el-form-item>
+        <el-form-item label="面积">
+          <el-input-number v-model="reqData.area" controls-position="right" :precision="2" :step="0.1" :min="1"></el-input-number>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancelSave">取 消</el-button>
@@ -96,14 +102,24 @@ export default {
           minWidth: 141,
         },
         {
-          prop: "createtime",
-          label: "创建时间",
-          minWidth: 180,
+          prop: "area",
+          label: "教学楼面积",
+          minWidth: 141,
+        },
+        {
+          prop: "floor",
+          label: "楼层数",
+          minWidth: 141,
         },
         {
           prop: "count",
           label: "教室数量",
           minWidth: 77,
+        },
+        {
+          prop: "createtime",
+          label: "创建时间",
+          minWidth: 180,
         },
       ],
       tableSettings: {
@@ -127,6 +143,8 @@ export default {
         id: "",
         name: "",
         createtime: "",
+        floor: 1,
+        area: 10,
       },
       isEdit: false,
       selectBuilding: [],
@@ -176,6 +194,9 @@ export default {
       this.reqData = {
         id: "",
         name: "",
+        createtime: "",
+        floor: 1,
+        area: 10,
       };
     },
 
