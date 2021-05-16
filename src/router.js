@@ -54,6 +54,22 @@ const routes = [
     ],
   },
   {
+    path: "/task",
+    component: Home,
+    children: [
+      {
+        path: "/task",
+        name: "task",
+        component: () => import("./views/teachingtask/index"),
+      },
+      {
+        path: "/task/detail",
+        name: "taskDetail",
+        component: () => import("./views/teachingtask/taskDetail"),
+      },
+    ],
+  },
+  {
     path: "/schedule",
     component: Home,
     children: [

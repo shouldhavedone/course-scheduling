@@ -12,9 +12,9 @@
               :value="item.id"
             ></el-option>
           </el-select>
-          <el-select v-model="selectMajor" clearable placeholder="请选择专业" class="select-box">
+          <!-- <el-select v-model="selectMajor" clearable placeholder="请选择专业" class="select-box">
             <el-option v-for="item in majorList" :key="item.id" :label="item.name" :value="item.id"></el-option>
-          </el-select>
+          </el-select> -->
           <el-select v-model="selectGrade" clearable placeholder="请选择年级" class="select-box">
             <el-option v-for="(item, index) in gradeList" :key="index" :label="item" :value="item"></el-option>
           </el-select>

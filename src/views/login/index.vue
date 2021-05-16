@@ -2,14 +2,12 @@
   <div class="login-content">
     <div class="login-form">
       <div class="right-from">
-        <p class="title">大学生排课系统</p>
+        <p class="title">大学排课系统</p>
         <el-form
           :model="ruleForm"
           :rules="rules"
           ref="ruleForm"
           class="login-ruleForm"
-          label-position="left"
-          :hide-required-asterisk="false"
         >
           <el-form-item label="账号" prop="username">
             <el-input

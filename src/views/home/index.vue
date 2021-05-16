@@ -14,7 +14,6 @@
                 class="el-menu-vertical-demo"
                 :default-openeds="openSubs"
                 :unique-opened="true"
-                text-color="#fff"
                 router
               >
                 <cside :navMenus="menuList" :isCollapse="isCollapse"></cside>
@@ -57,11 +56,11 @@ export default {
   },
 
   mounted() {
-    this.getMenu();
+    this.getMenuList();
   },
 
   methods: {
-    async getMenu() {
+    async getMenuList() {
       const params = {
         role_id: this.userInfo.role_id,
       };

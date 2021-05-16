@@ -26,10 +26,10 @@
 
       <div class="table-wrap">
         <ctable
-          :data="tableData"
+          :data="tableData" 
           :cloumn="cloumn"
           :settings="tableSettings"
-          @btnClick="showDetail"
+          @btnClick="showDetail"    
           @handleSelectionChange="handleSelectionChange"
           v-loading="loading"
           element-loading-text="Loading"
@@ -60,10 +60,21 @@
           ></el-input>
         </el-form-item>
         <el-form-item label="楼层数">
-          <el-input-number v-model="reqData.floor" controls-position="right" :min="1" :max="100"></el-input-number>
+          <el-input-number
+            v-model="reqData.floor"
+            controls-position="right"
+            :min="1"
+            :max="100"
+          ></el-input-number>
         </el-form-item>
         <el-form-item label="面积">
-          <el-input-number v-model="reqData.area" controls-position="right" :precision="2" :step="0.1" :min="1"></el-input-number>
+          <el-input-number
+            v-model="reqData.area"
+            controls-position="right"
+            :precision="2"
+            :step="0.1"
+            :min="1"
+          ></el-input-number>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -88,8 +99,8 @@ export default {
 
   data() {
     return {
-      loading: false,
-      tableData: [],
+      loading: false, // 加载
+      tableData: [], // 表格数据
       cloumn: [
         {
           prop: "id",
@@ -121,32 +132,33 @@ export default {
           label: "创建时间",
           minWidth: 180,
         },
-      ],
+      ], // 表头数据
       tableSettings: {
-        page: 1,
-        rows: 12,
-        isMultiple: true,
-        isSaveSelect: true,
+        page: 1, // 页，1
+        rows: 12, //
+        isMultiple: true, // 多选框
+        isSaveSelect: true, // 是否保存选项
         operateBtns: [
           { id: 1, btnName: "编辑" },
           { id: 3, btnName: "删除" },
         ],
       },
       pageparams: {
-        pageSize: 12,
-        total: 0,
-        page: 1,
-      },
-      searchName: "",
-      dialogVisible: false,
+        pageSize: 12, //
+        total: 0, // 总数据量
+        page: 1, // 第几页
+      }, //
+      searchName: "", // 搜索值
+      dialogVisible: false, // 显示弹窗
       reqData: {
+        // 保存表单的值
         id: "",
         name: "",
-        createtime: "",
+        createtime: "", //
         floor: 1,
         area: 10,
-      },
-      isEdit: false,
+      }, // 弹窗内容
+      isEdit: false, // 是否
       selectBuilding: [],
     };
   },
@@ -156,6 +168,30 @@ export default {
   },
 
   methods: {
+    async getBuildingList() {
+      const params = {
+        page: this.pageparams.page, // 页   1，
+        rows: this.pageparams.pageSize, // 请求多少条数据   ，12
+        name: this.searchName, //  搜索值
+      };
+      this.loading = true;
+      const res = await this.$http.get(
+        // 向后台发送请求，get请求 ，
+        `${api.getBuildingList}?${this.$qs.stringify(params)}`
+      );
+      this.loading = false;
+      if (res && res.isSucceed) {
+        res.data.forEach((c) => {
+          c.createtime = this.$moment(new Date(c.createtime)).format(
+            "YYYY-MM-DD hh:mm:ss"
+          );
+          c.count = c.Classrooms ? c.Classrooms.length : 0;
+        });
+        this.tableData = res.data;
+        this.pageparams.total = res.total;
+      }
+    },
+
     handlePage(v) {
       this.pageparams.page = v;
       this.tableSettings.page = v;
@@ -173,6 +209,10 @@ export default {
         this.dialogVisible = true;
         this.reqData = obj.row;
       } else {
+        if (!this.selectBuilding) {
+          this.$message.error("请选择项！");
+          return;
+        }
         this.selectBuilding = [obj.row.id];
         this.delBuilding();
       }
@@ -186,8 +226,8 @@ export default {
     },
 
     addBuilding() {
-      this.isEdit = false;
-      this.dialogVisible = true;
+      this.isEdit = false; // 不是编辑，新增
+      this.dialogVisible = true; // 显示弹窗
     },
 
     resetDialog() {
@@ -200,37 +240,14 @@ export default {
       };
     },
 
-    async getBuildingList() {
-      const params = {
-        page: this.pageparams.page,
-        rows: this.pageparams.pageSize,
-        name: this.searchName,
-      };
-      this.loading = true;
-      const res = await this.$http.get(
-        `${api.getBuildingList}?${this.$qs.stringify(params)}`
-      );
-      this.loading = false;
-      if (res && res.isSucceed) {
-        res.data.forEach((c) => {
-          c.createtime = this.$moment(new Date(c.createtime)).format(
-            "YYYY-MM-DD hh:mm:ss"
-          );
-          c.count = c.Classrooms ? c.Classrooms.length: 0
-        });
-        this.tableData = res.data;
-        this.pageparams.total = res.total;
-      }
-    },
-
     async saveBuilding() {
       const params = {
         ...this.reqData,
         createtime: new Date(),
       };
-      const res = await this.$http.post(api.addOrUpdateBuilding, params);
+      const res = await this.$http.post(api.addOrUpdateBuilding, params); // 发送请求  post
       if (res && res.isSucceed) {
-        this.$message.success(res.message);
+        this.$message.success("新增成功");
         this.getBuildingList();
       }
       this.dialogVisible = false;
@@ -247,9 +264,7 @@ export default {
         this.$message.success(res.message);
         this.selectBuilding = [];
       }
-      this.$nextTick(() => {
-        this.getBuildingList();
-      })
+      this.getBuildingList();
     },
   },
 };

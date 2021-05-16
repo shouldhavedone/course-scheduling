@@ -29,7 +29,7 @@
             <el-dropdown-item disabled divided command="changeType">
               <i class="iconfont icontype"></i>修改主题
             </el-dropdown-item>
-            <el-dropdown-item divided command="userHome">
+            <el-dropdown-item divided command="modifyUser">
               <i class="iconfont iconuserinfo"></i>修改账户
             </el-dropdown-item>
             <el-dropdown-item divided command="logout">
@@ -111,7 +111,7 @@ export default {
       }
     };
     return {
-      isFullscreen: false,
+      isFullscreen: false,   
       hideNav: false,
       username: JSON.parse(getSession("userInfo")).username,
       dialogVisible: false,
@@ -212,7 +212,7 @@ export default {
         case "logout":
           this.logout();
           break;
-        case "userHome":
+        case "modifyUser":
           this.showDialog();
           break;
         case "changeType":

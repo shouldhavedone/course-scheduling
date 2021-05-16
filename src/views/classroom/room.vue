@@ -27,6 +27,11 @@
               :value="item.id"
             >
             </el-option>
+            <!-- <el-option>第一教学楼</el-option>
+            <el-option></el-option>
+            <el-option></el-option>
+            <el-option></el-option>
+            <el-option></el-option> -->
           </el-select>
         </div>
 
@@ -159,14 +164,12 @@
 </template>
 <script>
 import cheader from "@/components/header";
-import ctable from "@/components/table";
 import cpagenation from "@/components/pagenation";
 import api from "@/api/classroom";
 
 export default {
   components: {
     cheader,
-    ctable,
     cpagenation,
   },
 
@@ -258,7 +261,7 @@ export default {
         rows: this.pageparams.pageSize,
         name: this.searchName,
         building_id: this.selectBuilding,
-      };
+      }; 
       this.loading = true;
       const res = await this.$http.get(
         `${api.getClassroomList}?${this.$qs.stringify(params)}`
@@ -291,6 +294,10 @@ export default {
 
     async delClassroom(id) {
       id ? this.selectClassroom.push(id) : "";
+      if(this.selectClassroom.length == 1) {
+        this.$message.error('请选择项！')
+        return false;
+      }
       const params = {
         ids: this.selectClassroom.join(","),
       };
@@ -298,10 +305,8 @@ export default {
       if (res && res.isSucceed) {
         this.$message.success(res.message);
         this.selectClassroom = [];
-        this.$nextTick(() => {
-          this.getClassroomList();
-        });
       }
+      this.getClassroomList();
     },
   },
 };
