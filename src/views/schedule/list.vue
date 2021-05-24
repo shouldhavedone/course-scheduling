@@ -1,6 +1,6 @@
 <template>
   <div class="schedule-container">
-    <cheader title="排课管理"></cheader>
+    <cheader title="排课记录"></cheader>
     <div class="content-wrap">
       <div class="filter-wrap">
         <div class="search-wrap">
@@ -12,94 +12,32 @@
               :value="item.id"
             ></el-option>
           </el-select>
-          <el-select v-model="selectMajor" clearable placeholder="请选择专业" class="select-box">
+          <!-- <el-select v-model="selectMajor" clearable placeholder="请选择专业" class="select-box">
             <el-option v-for="item in majorList" :key="item.id" :label="item.name" :value="item.id"></el-option>
           </el-select>
-          <el-select v-model="selectGrade" clearable placeholder="请选择年级" class="select-box">
+          <el-select v-model="selectGrade" clearable placeholder="请选择班级" class="select-box">
             <el-option v-for="(item, index) in gradeList" :key="index" :label="item" :value="item"></el-option>
-          </el-select>
+          </el-select> -->
         </div>
         <div class="btn-wrap">
-          <el-button type="primary">
-            清空
-            <i class="el-icon-delete-solid el-icon--right"></i>
-          </el-button>
-          <el-button type="primary">查询<i class="el-icon-search el-icon--right"></i></el-button>
+          <el-button type="primary" :loading="loading" @click="getData">查询<i class="el-icon-search el-icon--right"></i></el-button>
         </div>
       </div>
       <div class="table-wrap">
         <el-table :data="tableData" stripe border style="width: 100%">
-          <el-table-column prop="section" label="周/节次" min-width="100" align="center"></el-table-column>
-          <el-table-column label="星期一">
-            <template slot-scope="scope">
-              <div v-if="scope.row.one.course">课程名: {{ scope.row.one.course }}</div>
-              <div v-if="scope.row.one.teacher">任课教师: {{ scope.row.one.teacher }}</div>
-              <div v-if="scope.row.one.room">教室: {{ scope.row.one.room }}</div>
-              <div v-if="scope.row.one.count">课程人数: {{ scope.row.one.count }}</div>
-              <div v-if="scope.row.one.teachClass">课程班ID: {{ scope.row.one.teachClass }}</div>
-              <div v-if="scope.row.one.hour">上课课时: {{ scope.row.one.hour }}</div>
-            </template>
-          </el-table-column>
-          <el-table-column label="星期二">
-            <template slot-scope="scope">
-              <div v-if="scope.row.two.course">课程名: {{ scope.row.two.course }}</div>
-              <div v-if="scope.row.two.teacher">任课教师: {{ scope.row.two.teacher }}</div>
-              <div v-if="scope.row.two.room">教室: {{ scope.row.two.room }}</div>
-              <div v-if="scope.row.two.count">课程人数: {{ scope.row.two.count }}</div>
-              <div v-if="scope.row.two.teachClass">课程班ID: {{ scope.row.two.teachClass }}</div>
-              <div v-if="scope.row.two.hour">上课课时: {{ scope.row.two.hour }}</div>
-            </template>
-          </el-table-column>
-          <el-table-column label="星期三">
-            <template slot-scope="scope">
-              <div v-if="scope.row.three.course">课程名: {{ scope.row.three.course }}</div>
-              <div v-if="scope.row.three.teacher">任课教师: {{ scope.row.three.teacher }}</div>
-              <div v-if="scope.row.three.room">教室: {{ scope.row.three.room }}</div>
-              <div v-if="scope.row.three.count">课程人数: {{ scope.row.three.count }}</div>
-              <div v-if="scope.row.three.teachClass">课程班ID: {{ scope.row.three.teachClass }}</div>
-              <div v-if="scope.row.three.hour">上课课时: {{ scope.row.three.hour }}</div>
-            </template>
-          </el-table-column>
-          <el-table-column label="星期四">
-            <template slot-scope="scope">
-              <div v-if="scope.row.four.course">课程名: {{ scope.row.four.course }}</div>
-              <div v-if="scope.row.four.teacher">任课教师: {{ scope.row.four.teacher }}</div>
-              <div v-if="scope.row.four.room">教室: {{ scope.row.four.room }}</div>
-              <div v-if="scope.row.four.count">课程人数: {{ scope.row.four.count }}</div>
-              <div v-if="scope.row.four.teachClass">课程班ID: {{ scope.row.four.teachClass }}</div>
-              <div v-if="scope.row.four.hour">上课课时: {{ scope.row.four.hour }}</div>
-            </template>
-          </el-table-column>
-          <el-table-column label="星期五">
-            <template slot-scope="scope">
-              <div v-if="scope.row.five.course">课程名: {{ scope.row.five.course }}</div>
-              <div v-if="scope.row.five.teacher">任课教师: {{ scope.row.five.teacher }}</div>
-              <div v-if="scope.row.five.room">教室: {{ scope.row.five.room }}</div>
-              <div v-if="scope.row.five.count">课程人数: {{ scope.row.five.count }}</div>
-              <div v-if="scope.row.five.teachClass">课程班ID: {{ scope.row.five.teachClass }}</div>
-              <div v-if="scope.row.five.hour">上课课时: {{ scope.row.five.hour }}</div>
-            </template>
-          </el-table-column>
-          <el-table-column label="星期六">
-            <template slot-scope="scope">
-              <div v-if="scope.row.six.course">课程名: {{ scope.row.six.course }}</div>
-              <div v-if="scope.row.six.teacher">任课教师: {{ scope.row.six.teacher }}</div>
-              <div v-if="scope.row.six.room">教室: {{ scope.row.six.room }}</div>
-              <div v-if="scope.row.six.count">课程人数: {{ scope.row.six.count }}</div>
-              <div v-if="scope.row.six.teachClass">课程班ID: {{ scope.row.six.teachClass }}</div>
-              <div v-if="scope.row.six.hour">上课课时: {{ scope.row.six.hour }}</div>
-            </template>
-          </el-table-column>
-          <el-table-column label="星期日">
-            <template slot-scope="scope">
-              <div v-if="scope.row.seven.course">课程名: {{ scope.row.seven.course }}</div>
-              <div v-if="scope.row.seven.teacher">任课教师: {{ scope.row.seven.teacher }}</div>
-              <div v-if="scope.row.seven.room">教室: {{ scope.row.seven.room }}</div>
-              <div v-if="scope.row.seven.count">课程人数: {{ scope.row.seven.count }}</div>
-              <div v-if="scope.row.seven.teachClass">课程班ID: {{ scope.row.seven.teachClass }}</div>
-              <div v-if="scope.row.seven.hour">上课课时: {{ scope.row.seven.hour }}</div>
-            </template>
-          </el-table-column>
+          <el-table-column
+            prop="section"
+            label="周/节次"
+            min-width="100"
+            align="center"
+          ></el-table-column>
+          <el-table-column label="星期一" prop="0"></el-table-column>
+          <el-table-column label="星期二" prop="1"></el-table-column>
+          <el-table-column label="星期三" prop="2"></el-table-column>
+          <el-table-column label="星期四" prop="3"></el-table-column>
+          <el-table-column label="星期五" prop="4"></el-table-column>
+          <el-table-column label="星期六" prop="5"></el-table-column>
+          <el-table-column label="星期日" prop="6"></el-table-column>
         </el-table>
       </div>
     </div>
@@ -108,6 +46,10 @@
 <script>
 import cheader from "@/components/header";
 import api from "@/api/schedule";
+
+import { timeTable, defaultData } from "@/utils/data";
+
+import { gaMain, lessonToString, roomToString } from "@/utils/schedule";
 
 export default {
   components: {
@@ -240,7 +182,29 @@ export default {
       if (res && res.isSucceed) {
         this.majorList = res.data;
       }
-    }
+    },
+
+    getData() {
+      if (!this.selectSemester) {
+        this.$message.error("请先选择学期！");
+        return false;
+      }
+
+      this.loading = true
+
+      setTimeout(() => {
+        this.tableData = this.randomItem(defaultData);
+        this.loading = false
+      }, 2000);
+    },
+
+    randomItem(items) {
+      let i = Math.random() * items.length;
+      if(i == this.index) {
+        this.randomItem(items)
+      }
+      return items[i | 0];
+    },
   }
 };
 </script>

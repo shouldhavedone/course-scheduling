@@ -69,8 +69,8 @@
             :reserve-selection="true"
           >
           </el-table-column>
-          <el-table-column prop="id" label="编号" min-width="80">
-          </el-table-column>
+          <!-- <el-table-column prop="id" label="编号" min-width="80">
+          </el-table-column> -->
           <el-table-column prop="name" label="姓名" min-width="140">
           </el-table-column>
           <el-table-column prop="course" label="课程" min-width="140">

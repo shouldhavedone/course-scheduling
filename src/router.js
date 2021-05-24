@@ -31,9 +31,20 @@ const routes = [
     component: Home,
     children: [
       {
-        path: "/emptyroom",
-        name: "emptyroom",
+        path: "/emptyroom/student",
+        name: "emptyroom/student",
         component: () => import("./views/emptyroom/index"),
+      },
+    ],
+  },
+  {
+    path: "/emptyroom",
+    component: Home,
+    children: [
+      {
+        path: "/emptyroom/teacher",
+        name: "emptyroom/teacher",
+        component: () => import("./views/emptyroom/teacher"),
       },
     ],
   },

@@ -69,8 +69,8 @@
             :reserve-selection="true"
           >
           </el-table-column>
-          <el-table-column prop="id" label="编号" min-width="80">
-          </el-table-column>
+          <!-- <el-table-column prop="id" label="编号" min-width="80">
+          </el-table-column> -->
           <el-table-column prop="name" label="名称" min-width="140">
           </el-table-column>
           <el-table-column prop="week_count" label="开课周数" min-width="80">
@@ -120,9 +120,9 @@
       :visible.sync="dialogVisible"
     >
       <el-form :model="reqData" label-width="80px">
-        <el-form-item v-if="isEdit" label="学期ID">
+        <!-- <el-form-item v-if="isEdit" label="学期ID">
           <el-input v-model="reqData.id" disabled></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="学期名">
           <el-input
             v-model="reqData.name"

@@ -69,8 +69,8 @@
             :reserve-selection="true"
           >
           </el-table-column>
-          <el-table-column prop="id" label="编号" min-width="80">
-          </el-table-column>
+          <!-- <el-table-column prop="id" label="编号" min-width="80">
+          </el-table-column> -->
           <el-table-column prop="username" label="名称" min-width="140">
           </el-table-column>
           <el-table-column prop="building" label="账户" min-width="140">

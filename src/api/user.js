@@ -3,4 +3,5 @@ export default {
   updateUser: '/back-sys/user-service/updateUser',
   delUser: '/back-sys/user-service/delUser',
   getAllRole: '/back-sys/user-service/getAllRole',
+  addOrUpdateUser: '/back-sys/user-service/addOrUpdateUser',
 }

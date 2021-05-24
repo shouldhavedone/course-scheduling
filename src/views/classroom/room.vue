@@ -74,8 +74,8 @@
             :reserve-selection="true"
           >
           </el-table-column>
-          <el-table-column prop="id" label="编号" min-width="80">
-          </el-table-column>
+          <!-- <el-table-column prop="id" label="编号" min-width="80">
+          </el-table-column> -->
           <el-table-column prop="name" label="名称" min-width="140">
           </el-table-column>
           <el-table-column prop="count" label="容纳人数" min-width="100">
@@ -123,9 +123,9 @@
       :visible.sync="dialogVisible"
     >
       <el-form :model="reqData" label-width="80px">
-        <el-form-item v-if="isEdit" label="教室ID">
+        <!-- <el-form-item v-if="isEdit" label="教室ID">
           <el-input v-model="reqData.id" disabled></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="教室名">
           <el-input
             v-model="reqData.name"

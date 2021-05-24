@@ -50,9 +50,9 @@
       :visible.sync="dialogVisible"
     >
       <el-form :model="reqData" label-width="80px">
-        <el-form-item v-if="isEdit" label="教学楼ID">
+        <!-- <el-form-item v-if="isEdit" label="教学楼ID">
           <el-input v-model="reqData.id" disabled></el-input>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="教学楼名">
           <el-input
             v-model="reqData.name"
@@ -102,11 +102,11 @@ export default {
       loading: false, // 加载
       tableData: [], // 表格数据
       cloumn: [
-        {
-          prop: "id",
-          label: "编号",
-          minWidth: 80,
-        },
+        // {
+        //   prop: "id",
+        //   label: "编号",
+        //   minWidth: 80,
+        // },
         {
           prop: "name",
           label: "名称",

@@ -3,101 +3,193 @@
     <cheader :title="isEdit ? '编辑教学任务' : '新增教学任务'"></cheader>
     <div class="content-wrap">
       <div class="left-wrap">
-        <el-form
-          ref="form"
-          :model="form"
-          :rules="rules"
-          label-width="80px"
-          label-position="left"
-        >
-          <el-form-item label="学期：" prop="semester">
-            <el-select
-              v-model="form.semester_id"
-              placeholder="请选择学期"
-              clearable
-            >
-              <el-option
-                v-for="item in semesterList"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="专业：" prop="major">
-            <el-select
-              v-model="form.major_id"
-              placeholder="请选择专业"
-              clearable
-            >
-              <el-option
-                v-for="item in majorList"
-                :key="item.id"
-                :label="item.name"
-                :value="item.id"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="总学分：" prop="credit">
-            <el-input
-              v-model="form.credit"
-              disabled
-              clearable
-              placeholder="请输入总学分"
-            ></el-input>
-          </el-form-item>
-          <el-form-item label="总学时：" prop="total_hours">
-            <el-input
-              v-model="form.total_hours"
-              disabled
-              clearable
-              placeholder="请输入总学时"
-            ></el-input>
-          </el-form-item>
-        </el-form>
+        <el-scrollbar>
+          <el-form
+            ref="form"
+            :model="form"
+            label-width="80px"
+            label-position="left"
+          >
+            <el-form-item label="学期：" prop="semester">
+              <el-select
+                v-model="form.semester_id"
+                placeholder="请选择学期"
+                clearable
+              >
+                <el-option
+                  v-for="item in semesterList"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="专业：" prop="major">
+              <el-select
+                v-model="form.major_id"
+                placeholder="请选择专业"
+                clearable
+                @change="getClassByMajor"
+              >
+                <el-option
+                  v-for="item in majorList"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="总学分：" prop="credit">
+              <el-input
+                v-model="form.credit"
+                disabled
+                clearable
+                placeholder="请输入总学分"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="总学时：" prop="total_hours">
+              <el-input
+                v-model="form.total_hours"
+                disabled
+                clearable
+                placeholder="请输入总学时"
+              ></el-input>
+            </el-form-item>
+          </el-form>
+          <el-button type="primary" @click="showDialog">添加课程</el-button>
+        </el-scrollbar>
       </div>
       <div class="right-wrap">
         <el-scrollbar>
           <el-table
-            :data="courseList"
-            row-key="id"
-            style="width: 100%"
-            ref='table'
-            @selection-change="handleSelectionChange"
-            v-loading="courseLoading"
-            element-loading-text="Loading"
-            element-loading-spinner="el-icon-loading"
+            :data="lessonClass"
+            border
+            style="width: 100%; margin-top: 20px"
           >
-            <el-table-column type="selection" width="55"> </el-table-column>
-            <el-table-column
-              prop="name"
-              label="名称"
-              min-width="140"
-            ></el-table-column>
-            <el-table-column prop="courseType" label="课程类型" min-width="140">
-              <template slot-scope="scope">{{
-                scope.row.CourseType.name
-              }}</template>
+            <el-table-column prop="name" label="课程"> </el-table-column>
+            <el-table-column prop="number" label="授课人数"> </el-table-column>
+            <el-table-column prop="teacherName" label="授课教师">
             </el-table-column>
-            <el-table-column
-              prop="credit"
-              label="学分"
-              min-width="80"
-            ></el-table-column>
-            <el-table-column
-              prop="class_hours"
-              label="学时"
-              min-width="80"
-            ></el-table-column>
+            <el-table-column prop="className" label="教学班级">
+            </el-table-column>
           </el-table>
         </el-scrollbar>
       </div>
     </div>
 
     <div class="footer-wrap">
-      <el-button type="primary" @click="checkData">{{isEdit ? '保存' : '新增'}}教学计划</el-button>
+      <el-button type="primary" @click="checkData"
+        >{{ isEdit ? "保存" : "新增" }}教学计划</el-button
+      >
       <el-button @click="goback">取消</el-button>
     </div>
+
+    <el-dialog title="添加课程" :visible.sync="dialogVisible" width="70%">
+      <el-form
+        ref="courseForm"
+        :model="courseForm"
+        :rules="courseRules"
+        label-width="86px"
+        label-position="left"
+      >
+        <el-row>
+          <el-col :span="8">
+            <el-form-item label="课程：" prop="course">
+              <el-select
+                v-model="courseForm.course_id"
+                placeholder="请选择课程"
+                clearable
+                @change="selectCourse"
+              >
+                <el-option
+                  v-for="item in courseList"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="学分：" prop="credit">
+              <el-input-number
+                v-model="courseForm.credit"
+                controls-position="right"
+                disabled
+              ></el-input-number>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="学时：" prop="hours">
+              <el-input-number
+                v-model="courseForm.hours"
+                controls-position="right"
+                disabled
+              ></el-input-number>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <template v-for="(item, index) in lessonData">
+          <el-row :key="index">
+            <el-col :span="8">
+              <el-form-item label="授课教师：" prop="teacher">
+                <el-select
+                  v-model="item.teacher_id"
+                  placeholder="请选择授课教师"
+                  clearable
+                  :disabled="teacherList.length ? false : true"
+                  @change="selectTeacher(index)"
+                >
+                  <el-option
+                    v-for="item in teacherList"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="授课人数：">
+                <el-input-number
+                  :min="0"
+                  v-model="item.number"
+                  controls-position="right"
+                  :disabled="teacherList.length ? false : true"
+                />
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="行政班级：">
+                <el-select
+                  v-model="item.class_id"
+                  placeholder="请选择行政班级"
+                  clearable
+                  :disabled="teacherList.length ? false : true"
+                  @change="selectClass(index)"
+                >
+                  <el-option
+                    v-for="item in classList"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id"
+                  ></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="2">
+              <el-button @click.prevent="removeClass(item)">删除</el-button>
+            </el-col>
+          </el-row>
+        </template>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="addLessonClass">新增教学班</el-button>
+        <el-button @click="closeDialog">取 消</el-button>
+        <el-button type="primary" @click="sureDialog">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -116,14 +208,12 @@ export default {
         id: "",
         major_id: "",
         semester_id: "",
-        credit: "",
-        total_hours: "",
+        credit: 0,
+        total_hours: 0,
       },
       semesterList: [],
       majorList: [],
       courseList: [],
-      selectCourse: [],
-      courseLoading: false,
       loading: false,
       rules: {
         semester: [
@@ -134,6 +224,44 @@ export default {
         total_hours: [{ required: true, message: "请选择课程" }],
       },
       isEdit: false,
+      dialogVisible: false,
+      courseForm: {
+        course_id: "",
+        courseName: "",
+        count: 1,
+        credit: 0,
+        hours: 0,
+      },
+      lessonData: [
+        {
+          teacher_id: "",
+          teacherName: "",
+          number: 0,
+          class_id: "",
+          className: "",
+        },
+      ],
+      courseRules: {
+        // course: [{ required: true, message: "请选择课程", trigger: "change" }],
+        count: [
+          { required: true, message: "请输入教学班数量", trigger: "blur" },
+        ],
+        credit: [
+          {
+            required: true,
+            message: "请选择课程",
+          },
+        ],
+        hours: [
+          {
+            required: true,
+            message: "请选择课程",
+          },
+        ],
+      },
+      lessonClass: [],
+      teacherList: [],
+      classList: [],
     };
   },
 
@@ -149,15 +277,151 @@ export default {
   },
 
   methods: {
-    handleSelectionChange(val) {
-      console.log(val)
-      this.selectCourse = val;
-      this.form.credit = val.length
-        ? val.map((c) => c.credit).reduce((a, b) => a + b)
-        : 0;
-      this.form.total_hours = val.length
-        ? val.map((c) => c.class_hours).reduce((a, b) => a + b)
-        : 0;
+    async getClassByMajor() {
+      const params = {
+        major_id: this.form.major_id,
+      };
+
+      const res = await this.$http.get(
+        `${api.getClassByMajor}?${this.$qs.stringify(params)}`
+      );
+
+      if (res && res.isSucceed) {
+        this.classList = res.data;
+      }
+    },
+
+    removeClass(item) {
+      var index = this.lessonData.indexOf(item);
+      if (index !== -1) {
+        this.lessonData.splice(index, 1);
+      }
+    },
+    addLessonClass() {
+      this.lessonData.push({
+        teacher_id: "",
+        teacherName: "",
+        number: 0,
+        class_id: "",
+        className: "",
+      });
+    },
+
+    showDialog() {
+      this.resetData();
+      this.dialogVisible = true;
+    },
+
+    sureDialog() {
+      const arr = this.lessonData.map((item) => {
+        return {
+          course_id: this.courseForm.course_id,
+          name: this.courseForm.courseName,
+          ...item,
+        };
+      });
+
+      this.lessonClass = [...this.lessonClass, ...arr];
+      this.dialogVisible = false;
+    },
+
+    closeDialog() {
+      this.dialogVisible = false;
+      this.resetData();
+    },
+
+    resetData() {
+      this.courseForm = {
+        course_id: "",
+        count: 1,
+        credit: 0,
+        hours: 0,
+      };
+      this.lessonData = [
+        {
+          teacher_id: "",
+          teacherName: "",
+          number: 0,
+          class_id: "",
+          className: "",
+        },
+      ];
+    },
+
+    selectCourse() {
+      if (!this.courseForm.course_id) {
+        this.courseForm = {
+          credit: "",
+          hours: 0,
+          class_id: "",
+          courseName: "",
+        };
+        this.lessonData = [
+          {
+            teacher: "",
+            number: 0,
+            class_id: "",
+          },
+        ];
+        this.teacherList = [];
+        return false;
+      }
+      const course = this.courseList.find(
+        (item) => item.id == this.courseForm.course_id
+      );
+      this.courseForm = {
+        ...this.courseForm,
+        credit: course.credit,
+        hours: course.class_hours,
+        courseName: course.name,
+      };
+
+      this.getTeacherByCourse(this.courseForm.course_id);
+    },
+
+    selectTeacher(index) {
+      const teacher = this.teacherList.find(
+        (item) => item.id == this.lessonData[index].teacher_id
+      );
+      this.lessonData[index].teacherName = teacher.name;
+    },
+    selectClass(index) {
+      let item = this.lessonData[index];
+
+      console.log(item)
+      let flag = false;
+
+      for (let i = 0; i < this.lessonData.length - 1; i++) {
+        console.log(this.lessonData[i])
+        
+        if (this.lessonData[i].class_id == item.class_id) {
+          flag = true;
+        }
+      }
+
+      if (flag) {
+        this.$message.error("行政班级重复");
+
+        return false;
+      }
+
+      const classItem = this.classList.find(
+        (item) => item.id == this.lessonData[index].class_id
+      );
+      this.lessonData[index].className = classItem.name;
+      this.lessonData[index].number = classItem.count;
+    },
+
+    async getTeacherByCourse(id) {
+      const params = {
+        course_id: id,
+      };
+      const res = await this.$http.get(
+        `${api.getTeacherByCourse}?${this.$qs.stringify(params)}`
+      );
+      if (res && res.isSucceed) {
+        this.teacherList = res.data;
+      }
     },
 
     async getMajorList() {
@@ -174,12 +438,10 @@ export default {
     },
 
     async getCourseList() {
-      this.courseLoading = true;
       const res = await this.$http.get(api.getAllCourse);
       if (res && res.isSucceed) {
         this.courseList = res.data;
       }
-      this.courseLoading = false;
     },
 
     checkData() {
@@ -195,16 +457,15 @@ export default {
     async saveTask() {
       const params = {
         ...this.form,
-        courseList: this.selectCourse.map((item) => item.id),
+        lessonClass: this.lessonClass,
+        // courseList: this.selectCourse.map((item) => item.id),
       };
 
-      console.log(params)
-
-      // const res = await this.$http.post(api.addOrUpdateTask, params);
-      // if (res && res.isSucceed) {
-      //   this.$message.success(res.message);
-      //   this.goback();
-      // }
+      const res = await this.$http.post(api.addOrUpdateTask, params);
+      if (res && res.isSucceed) {
+        this.$message.success(res.message);
+        this.goback();
+      }
     },
 
     goback() {
@@ -218,12 +479,11 @@ export default {
         this.form = {
           ...res.data,
         };
-        res.data.Courses.forEach((row) => {
-          this.$refs.table.toggleRowSelection(row);
-        });
       }
       this.loading = false;
     },
+
+    filterData(data) {},
   },
 };
 </script>
@@ -299,10 +559,20 @@ export default {
         }
       }
     }
+
+    .el-select {
+      width: 400px * @width;
+    }
   }
 
-  .el-select {
-    width: 400px * @width;
+  .el-dialog {
+    .class-form-item .el-input {
+      width: 50%;
+    }
+
+    .el-select {
+      width: 300px * @width;
+    }
   }
 
   .footer-wrap {

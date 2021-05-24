@@ -74,15 +74,15 @@
               {{ scope.row.Major.name }}
             </template>
           </el-table-column>
-          <el-table-column prop="course" label="课程数量" min-width="80">
+          <el-table-column prop="lesson" label="教学班数" min-width="80">
             <template slot-scope="scope">
-              {{ scope.row.Courses.length }}
+              {{ scope.row.Lessons.length }}
             </template>
           </el-table-column>
-          <el-table-column prop="credit" label="学分" min-width="80">
+          <!-- <el-table-column prop="credit" label="学分" min-width="80">
           </el-table-column>
           <el-table-column prop="total_hours" label="总学时" min-width="80">
-          </el-table-column>
+          </el-table-column> -->
           <el-table-column
             prop="createtime"
             label="创建时间"
@@ -206,7 +206,7 @@ export default {
           c.createtime = this.$moment(new Date(c.createtime)).format(
             "YYYY-MM-DD hh:mm:ss"
           );
-          c.count = c.Courses ? c.Courses.length : 0;
+          c.count = c.Lessons ? c.Lessons.length : 0;
         });
         this.tableData = res.data;
         this.pageparams.total = res.total;

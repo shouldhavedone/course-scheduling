@@ -98,7 +98,7 @@
             </template>
           </el-table-column>
           <el-table-column type="selection" width="55" align="center" :reserve-selection="true"></el-table-column>
-          <el-table-column prop="id" label="编号" min-width="80"></el-table-column>
+          <!-- <el-table-column prop="id" label="编号" min-width="80"></el-table-column> -->
           <el-table-column prop="name" label="姓名" min-width="140"></el-table-column>
           <el-table-column prop="class" label="班级" min-width="140">
             <template slot-scope="scope">{{ scope.row.Class.name }}</template>

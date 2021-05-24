@@ -44,8 +44,8 @@
             :reserve-selection="true"
           >
           </el-table-column>
-          <el-table-column prop="id" label="编号" min-width="80">
-          </el-table-column>
+          <!-- <el-table-column prop="id" label="编号" min-width="80">
+          </el-table-column> -->
           <el-table-column prop="name" label="名称" min-width="100">
           </el-table-column>
           <el-table-column prop="path" label="路由" min-width="100">
